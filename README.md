@@ -1,2 +1,2 @@
-# pythonproject
+# PythonProject
 by VSCode
