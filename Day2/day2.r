@@ -584,7 +584,7 @@ for (i in 1:4){
     }
 }
 print(count) 
-
+  
 ## nPr = n!/(n-r)! 
 ## nCr = nPr/r! => n!/(n-r)!/r! 
 
