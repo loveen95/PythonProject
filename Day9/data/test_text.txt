@@ -1,0 +1,1 @@
+python -u "/Users/yunbeen/Desktop/ybfolder/빅데이터:자바 자료/python /pythonproject/Day9/Day9.py"
