@@ -70,9 +70,121 @@ print(binary_search(11, [2, 3, 5, 7, 11]))
 # 기수 정렬(Radix Sort) : 낮은 자리수부터 비교해가며 정렬한다. 비교연산을 하지 않아 빠르지만, 또 다른 메모리 공간을 필요로 한다는게 단점이다. 
 #                       데이터 전체크기에 기수 테이블의 크기만한 메모리가 더 필요하다.
 
+
 # 알고리즘의 평가
 # 평가의 두 기준 - 시간과 공간
 # 시간 복잡도(Time Complexity) : 데이터가 많아질수록 걸리는 시간이 얼마나 급격히 증가하는지를 나타낸다.
-# 거듭제곱(Exponentiation) : 
-# 로그 : 거듭제곱의 반대 개념 
+# 거듭제곱(Exponentiation) : 2^0은? ==> 2^1/2 == 2/2 == 1, 2^-1제곱은? ==> 2^0/2 == 1/2 
+# 로그 : 거듭제곱의 반대 개념
+# 점근 표기법(Big-O) : 소요 시간 20n + 40의 점근 표기법은? ==>  O(n) 
+#                 : 소요시간 2n^2 + 8n + 157의 점근 표기법은? ==> O(n^2)
+#                 - 즉 n의 가장 영향력을 많이 받는 숫자만 남기면서 표기한다. n이 가장 크다고 가정한다.
+#                 - 점근 표기법으로 알고리즘을 평가 할때 주의해야 할점 : 주로n을 사용하지만 n에 특별한 의미를 둘 필요는 없다.
+#                   또한 코드의 모든 줄은 O(1)이 아니다. sort나 sorted메소드를 사용하면 O(n lg n)의 정렬이 이루어지고, 
+#                   리스트에서 in 키워드를 통해 값의 존재 여부를 확인하면 내부적으로 O(n)의 선형 탐색이 이루어진다.
+#                   그 외 리스트의 길이를 n이라고 가정할때 인덱싱, append(), len()은 O(1)을 사용하고, 
+#                   reverse(), insert(index, element), del, min & max등은 O(n)로 동작한다. 
+#                   Dictionary에서 값 찾기, 값 넣어주기/덮어쓰기, 값 삭제등은 O(1)로 동작한다.
+# 주요 시간 복잡도 총정리
+# 선형 탐색 알고리즘 O(n), 이진 탐색 알고리즘 O(lg n)
+# 이 중 O(1), O(lg n), O(n), O(n lg n), O(n^2), O(n^3)가 많이 사용된다. 
+# O(1)은 인풋의 크기가 소요 시간에 영향이 없다는 뜻, 반복문이 없으면 대체로 O(1)이다. 
+# O(n)은 반복문이 있고, 반복되는 횟수가 인풋의 크기와 비레하면 일반적으로 O(n)이다. n/2번 반복한다면 O(1/2n)이지만, 1/2를 버려서 O(n)이 된다.
+# O(n^2)은 반복문 안에 반복문이있고, 두 반복문 다 인풋의 크기에 비례하는 경우, O(n^2)라고 한다.
+# O(n^3)은 인풋의 크기에 비례하는 반복문이 세번 충첩되면 O(n^3)가 된다.
+def print_powers_of_two(n):
+  i = 1
+  while i < n: 
+    print(i) 
+    i = i * 2
+# n이 128이면 i가 1일때부터 2,4,8,16,32,64 총 7번 실행
+def print_powers_of_two_1(n):
+  j = n
+  while j > 1:
+    print(j)
+    j = j / 2 
+# j가 128일때부터 64,32,16,8,4,2까지 총 7번 실행 
+# 두 경우 모두 O(lg n)이다.
+
+# O(n lg n)은 O(n)과 O(lg n)이 겹쳐진 것이다.
+def print_powers_of_two_repeatedly(n):
+  for i in range(n): # 반복 횟수: n에 비례
+    r = 1
+    while r < n: # 반복 횟수 : lg n에 비례
+      print(i, r)
+      r = r * 2
+# while문이 for문 안에 중첩되어 있기 때문에 위 코드의 시간 복잡도는 O(n lg n)이다.
+
+# 공간 복잡도(Space Complexity): 인풋 크기에 비례해서 알고리즘이 사용하는 메모리 공간을 나타낸다.
+#                             물론 공간 복잡도도 점근표기법으로 표현할수 있기 때문에 간편하게 Big-O표기법을 사용할수 있다.
+def product(a, b, c):
+  result = a * b * c
+  return result 
+# 파라미터 a,b,c가 차지하는 공간을 제외하면 추가적으로 변수 result가 공간을 차지한다. 
+# result가 차지하는 메모리 공간은 인풋과 무관하기 때문에 함수 product의 공간 복잡도는 O(1)이다.    
+
+def get_every_other(my_list):
+  every_other = my_list[::2]
+  return every_other 
+# 파라미터 my_list가 차지하는 공간을 제외하면 every_other가 공간을 차지한다. 
+# 리스트 every_other에는 my_list의 짝수 인덱스 값들이 복사돼서 들어간다. 약 n/2개의 값이 들어가는데, 
+# O(n/2)는 O(n)으로 값을 나타낼수 있기 때문에, get_every_other 함수의 공간 복잡도는 O(n)이다.
+
+def largest_product(my_list):
+  products = []
+  for a in my_list:
+    for b in my_list:
+      products.append(a * b) 
+# 파라미터 my_list가 차지하는 공간을 제외하면 변수 products, a, b가 공간을 차지한다.
+# a와 b는 그냥 정수 값을 담기 때문에 O(1)이다.  
+# products에는 my_list에서 가능한 모든 조합의 곱이 들어간다. 총 n^2의 값이 들어간다. 
+# 즉, 함수 largest_product의 공간 복잡도는 O(n^2)이다. 
+
+
+# 유용한 파이썬 기능 정리 #
+# str
+my_str = str(257138)
+print(my_str)                # => 257138
+# str함수를 사용하면 숫자를 문자열로 바꿀수 있다. 
+# 시간복잡도는 O(log n)이 된다.  
+
+# append 메소드를 사용하면 리스트 끝에 새로운 값이 추가된다. 시간 복잡도는 O(1)이다.
+# insert, del, index, reverse는 모두 O(n)이다.  
+
+# sort, sorted
+my_list = [7, 5, 2, 3, 6]
+print(sorted(my_list))       # => [2, 3, 5, 6, 7]
+print(my_list)               # => [7, 5, 2, 3, 6]
+
+my_list.sort()
+print(my_list)               # => [2, 3, 5, 6, 7]
+# sort메소드와 sorted함수는 리스트를 정렬시켜 준다. 
+# sorted함수를 사용하면 정렬된 새로운 리스트가 리턴되고, sort메소드는 그 리스트 자체를 정렬시켜 준다는 차이점이 있다.
+# 두 메소드의 시간복잡도는 모두 O(n lg n)이다. 
+
+# slicing 
+my_list = [7,5,2,3,6]
+print(my_list[1:4])          # => [5, 2, 3]
+print(my_list[:4])           # => [7, 5, 2, 3]
+print(my_list[1:])           # => [5, 2, 3, 6]
+print(my_list[:])            # => [7, 5, 2, 3, 6]
+print(my_list[::2])          # => [7, 2, 6]
+# 슬라이싱의 시간 복잡도는 슬라이싱의 범위 길이에 비례한다.
+# my_list[a:b]를 하면 시간 복잡도는 O(b-a)이다. 
+
+# len
+my_list = [7, 5, 2, 3, 6]
+my_dict = {'a': 2, 'b': 3, 'c': 5, 'd': 7}
+my_string = 'hello world'
+
+print(len(my_list))          # => 5
+print(len(my_dict))          # => 4
+print(len(my_string))        # => 11
+# len함수를 사용하면 리스트, 사전, 문자열 등의 길이가 리턴된다. 시간 복잡도는 O(1)이다.
+
+
+
+
+
+
 
